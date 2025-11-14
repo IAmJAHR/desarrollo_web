@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paquetes - Mundo Aventurero</title>
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
     <div class="top-bar">
         <div class="contact-info">
-            <span>📧 contacto@mundoaventurero.com</span>
-            <span>📞 +51 987 654 321</span>
+            <a href="mailto:contacto@mundoaventurero.com" class="contact-link">
+                📧 contacto@mundoaventurero.com
+            </a>
+            <a href="tel:+51987654321" class="contact-link">
+                📞 +51 987 654 321
+            </a>
         </div>
         <div class="social-icons">
             <a href="#" aria-label="Facebook">
@@ -114,6 +119,11 @@
         <p>© 2025 Mundo Aventurero. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Botón flotante "Ir arriba" -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
+        ↑
+    </button>
+
     <script>
         // Navbar sticky al hacer scroll
         window.addEventListener('scroll', function() {
@@ -127,6 +137,35 @@
                 header.classList.remove('sticky');
             }
         });
-    </script>
+
+        // Botón "Ir arriba" funcionalidad
+        const scrollTopBtn = document.getElementById('scroll-to-top');
+        
+        // Mostrar/ocultar botón según scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 150) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        // Scroll suave al hacer clic
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+    </footer>
+
+    <!-- Botón flotante "Ir arriba" -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="../assets/scripts/main.js"></script>
+    <script src="../assets/scripts/menu.js"></script>
+    <script src="../assets/scripts/scroll.js"></script>
 </body>
 </html>

@@ -1,14 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@600;700&display=swap');
 
-/* Variables globales */
+/* ===== VARIABLES CSS ORGANIZADAS ===== */
 :root {
-    --header-height: 80px;
+    /* === COLORES PRINCIPALES === */
     --color-primario: #005f8a;
     --color-secundario: #e63946;
     --color-blanco: #ffffff;
-    --color-gris: #f8f9fa;
+    --color-negro: #000000;
+    
+    /* === COLORES GRISES === */
+    --color-gris-claro: #f8f9fa;
+    --color-gris-medio: #6c757d;
+    --color-gris-oscuro: #2b2d42;
+    
+    /* === COLORES DE ESTADO === */
+    --color-exito: #28a745;
+    --color-advertencia: #ffc107;
+    --color-error: #dc3545;
+    --color-info: #17a2b8;
+    
+    /* === TRANSPARENCIAS === */
+    --overlay-oscuro: rgba(0, 0, 0, 0.7);
+    --overlay-claro: rgba(255, 255, 255, 0.9);
+    --sombra-suave: rgba(0, 0, 0, 0.1);
+    --sombra-media: rgba(0, 0, 0, 0.15);
+    --sombra-fuerte: rgba(0, 0, 0, 0.25);
+    
+    /* === TIPOGRAFÍAS === */
     --fuente-titulos: 'Montserrat', sans-serif;
     --fuente-cuerpo: 'Lato', sans-serif;
+    --fuente-codigo: 'Roboto Mono', monospace;
+    
+    /* === TAMAÑOS DE FUENTE === */
+    --texto-xs: 0.75rem;      /* 12px */
+    --texto-sm: 0.875rem;     /* 14px */
+    --texto-base: 1rem;       /* 16px */
+    --texto-lg: 1.125rem;     /* 18px */
+    --texto-xl: 1.25rem;      /* 20px */
+    --texto-2xl: 1.5rem;      /* 24px */
+    --texto-3xl: 1.875rem;    /* 30px */
+    --texto-4xl: 2.25rem;     /* 36px */
+    --texto-5xl: 3rem;        /* 48px */
+    
+    /* === ESPACIADO === */
+    --espaciado-xs: 0.25rem;  /* 4px */
+    --espaciado-sm: 0.5rem;   /* 8px */
+    --espaciado-md: 1rem;     /* 16px */
+    --espaciado-lg: 1.5rem;   /* 24px */
+    --espaciado-xl: 2rem;     /* 32px */
+    --espaciado-2xl: 3rem;    /* 48px */
+    --espaciado-3xl: 4rem;    /* 64px */
+    
+    /* === DIMENSIONES === */
+    --header-height: 80px;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    --border-radius-full: 50%;
+    
+    /* === TRANSICIONES === */
+    --transicion-rapida: 0.15s ease;
+    --transicion-normal: 0.3s ease;
+    --transicion-lenta: 0.5s ease;
+    
+    /* === Z-INDEX === */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal: 1040;
+    --z-popover: 1050;
+    --z-tooltip: 1060;
+    --z-top: 9999;
 }
 
 /* Reset y estilos base */
@@ -60,6 +123,55 @@ body {
 .social-icons svg {
     width: 18px;
     height: 18px;
+}
+
+/* Enlaces de contacto clickeables */
+.contact-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--color-secundario);
+    text-decoration: underline;
+}
+
+/* Botón flotante "Ir arriba" */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: var(--color-secundario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-top-btn:hover {
+    background: #c1121f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 /* Header - Navbar que se pega al hacer scroll */
@@ -118,6 +230,23 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Botón menú hamburguesa */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-blanco);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.menu-toggle:hover {
     background: rgba(255, 255, 255, 0.15);
 }
 
@@ -585,11 +714,45 @@ footer .redes a:hover {
         padding: 0.5rem 3vw;
     }
 
-    nav ul {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 1rem;
+    /* Menú hamburguesa en móvil */
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--color-primario);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.active {
+        display: block;
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        gap: 0;
+        margin: 0;
+        padding: 1rem 0;
+    }
+
+    .nav-menu ul li {
+        width: 100%;
+    }
+
+    .nav-menu ul li a {
+        display: block;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+    }
+
+    .nav-menu ul li:last-child a {
+        border-bottom: none;
     }
 
     .banner {
@@ -623,6 +786,15 @@ footer .redes a:hover {
 
     .video-youtube {
         height: 250px;
+    }
+
+    /* Botón "Ir arriba" en móvil */
+    .scroll-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
     }
 
     /* Tabla responsiva */

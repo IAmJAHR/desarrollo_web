@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinos - Mundo Aventurero</title>
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 
@@ -13,8 +14,12 @@
     <!-- Barra superior con redes sociales -->
     <div class="top-bar">
         <div class="contact-info">
-            <span>📧 contacto@mundoaventurero.com</span>
-            <span>📞 +51 987 654 321</span>
+            <a href="mailto:contacto@mundoaventurero.com" class="contact-link">
+                📧 contacto@mundoaventurero.com
+            </a>
+            <a href="tel:+51987654321" class="contact-link">
+                📞 +51 987 654 321
+            </a>
         </div>
         <div class="social-icons">
             <a href="#" aria-label="Facebook">
@@ -40,7 +45,10 @@
         <div class="logo">
             <a href="../index.html">Mundo Aventurero</a>
         </div>
-        <nav>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="nav-menu">
             <ul>
                 <li><a href="../index.html">Inicio</a></li>
                 <li><a href="destinos.html" class="active">Destinos</a></li>
@@ -61,7 +69,8 @@
         <h2>Destinos Populares</h2>
         <div class="gallery">
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80" alt="París, Francia">
+                <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80"
+                    alt="París">
                 <h3>París, Francia</h3>
                 <p>La ciudad del amor te espera con sus monumentos icónicos y su cultura única.</p>
                 <button>Ver más</button>
@@ -123,6 +132,11 @@
         <p>© 2025 Mundo Aventurero. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Botón flotante "Ir arriba" -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
+        ↑
+    </button>
+
     <script>
         // Navbar sticky al hacer scroll
         window.addEventListener('scroll', function() {
@@ -136,7 +150,28 @@
                 header.classList.remove('sticky');
             }
         });
-    </script>
+
+        // Botón "Ir arriba" funcionalidad
+        const scrollTopBtn = document.getElementById('scroll-to-top');
+        
+        // Mostrar/ocultar botón según scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 150) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+    </footer>
+
+    <!-- Botón flotante "Ir arriba" -->
+    <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts JavaScript -->
+    <script src="../assets/scripts/main.js"></script>
+    <script src="../assets/scripts/menu.js"></script>
+    <script src="../assets/scripts/scroll.js"></script>
 </body>
 
 </html>
