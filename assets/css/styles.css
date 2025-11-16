@@ -1,57 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@600;700&display=swap');
 
-/* ===== VARIABLES CSS ORGANIZADAS ===== */
+/* Variables */
 :root {
-    /* === COLORES PRINCIPALES === */
+    /* Colores */
     --color-primario: #005f8a;
     --color-secundario: #e63946;
     --color-blanco: #ffffff;
     --color-negro: #000000;
     
-    /* === COLORES GRISES === */
+    /* Grises */
     --color-gris-claro: #f8f9fa;
     --color-gris-medio: #6c757d;
     --color-gris-oscuro: #2b2d42;
     
-    /* === COLORES DE ESTADO === */
+    /* Estados */
     --color-exito: #28a745;
     --color-advertencia: #ffc107;
     --color-error: #dc3545;
     --color-info: #17a2b8;
     
-    /* === TRANSPARENCIAS === */
+    /* Sombras */
     --overlay-oscuro: rgba(0, 0, 0, 0.7);
     --overlay-claro: rgba(255, 255, 255, 0.9);
     --sombra-suave: rgba(0, 0, 0, 0.1);
     --sombra-media: rgba(0, 0, 0, 0.15);
     --sombra-fuerte: rgba(0, 0, 0, 0.25);
     
-    /* === TIPOGRAFÍAS === */
+    /* Fuentes */
     --fuente-titulos: 'Montserrat', sans-serif;
     --fuente-cuerpo: 'Lato', sans-serif;
     --fuente-codigo: 'Roboto Mono', monospace;
     
-    /* === TAMAÑOS DE FUENTE === */
-    --texto-xs: 0.75rem;      /* 12px */
-    --texto-sm: 0.875rem;     /* 14px */
-    --texto-base: 1rem;       /* 16px */
-    --texto-lg: 1.125rem;     /* 18px */
-    --texto-xl: 1.25rem;      /* 20px */
-    --texto-2xl: 1.5rem;      /* 24px */
-    --texto-3xl: 1.875rem;    /* 30px */
-    --texto-4xl: 2.25rem;     /* 36px */
-    --texto-5xl: 3rem;        /* 48px */
+    /* Tamaños texto */
+    --texto-xs: 0.75rem;
+    --texto-sm: 0.875rem;
+    --texto-base: 1rem;
+    --texto-lg: 1.125rem;
+    --texto-xl: 1.25rem;
+    --texto-2xl: 1.5rem;
+    --texto-3xl: 1.875rem;
+    --texto-4xl: 2.25rem;
+    --texto-5xl: 3rem;
     
-    /* === ESPACIADO === */
-    --espaciado-xs: 0.25rem;  /* 4px */
-    --espaciado-sm: 0.5rem;   /* 8px */
-    --espaciado-md: 1rem;     /* 16px */
-    --espaciado-lg: 1.5rem;   /* 24px */
-    --espaciado-xl: 2rem;     /* 32px */
+    /* Espaciado */
+    --espaciado-xs: 0.25rem;
+    --espaciado-sm: 0.5rem;
+    --espaciado-md: 1rem;
+    --espaciado-lg: 1.5rem;
+    --espaciado-xl: 2rem;
     --espaciado-2xl: 3rem;    /* 48px */
     --espaciado-3xl: 4rem;    /* 64px */
     
-    /* === DIMENSIONES === */
+    /* Tamaños */
     --header-height: 80px;
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
@@ -59,12 +59,12 @@
     --border-radius-xl: 16px;
     --border-radius-full: 50%;
     
-    /* === TRANSICIONES === */
+    /* Animaciones */
     --transicion-rapida: 0.15s ease;
     --transicion-normal: 0.3s ease;
     --transicion-lenta: 0.5s ease;
     
-    /* === Z-INDEX === */
+    /* Capas */
     --z-dropdown: 1000;
     --z-sticky: 1020;
     --z-fixed: 1030;
@@ -74,7 +74,7 @@
     --z-top: 9999;
 }
 
-/* Reset y estilos base */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -89,7 +89,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Barra superior con redes sociales */
+/* Barra superior */
 .top-bar {
     background: #1a1a1a;
     color: white;
@@ -125,7 +125,7 @@ body {
     height: 18px;
 }
 
-/* Enlaces de contacto clickeables */
+/* Enlaces contacto */
 .contact-link {
     color: white;
     text-decoration: none;
@@ -137,7 +137,7 @@ body {
     text-decoration: underline;
 }
 
-/* Botón flotante "Ir arriba" */
+/* Botón arriba */
 .scroll-top-btn {
     position: fixed;
     bottom: 2rem;
@@ -172,6 +172,142 @@ body {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: var(--z-modal);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-oscuro);
+}
+
+.modal-content {
+    background-color: var(--color-blanco);
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-gris-medio);
+}
+
+.close:hover {
+    color: var(--color-secundario);
+}
+
+.btn-modal {
+    background: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-modal:hover {
+    background: #004a6b;
+}
+
+/* Controles interactivos */
+.controles-destinos {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#filtro-destinos {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--color-gris-claro);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.btn-calculadora {
+    background: var(--color-secundario);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-calculadora:hover {
+    background: #c1121f;
+}
+
+.contador {
+    background: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-md);
+    font-size: 0.9rem;
+}
+
+.btn-reservar {
+    background: var(--color-secundario);
+    color: var(--color-blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.btn-reservar:hover {
+    background: #c1121f;
+}
+
+/* Animaciones de entrada */
+.card, .testimonial-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.card.animate-in, .testimonial-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive para controles */
+@media (max-width: 768px) {
+    .controles-destinos {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #filtro-destinos {
+        min-width: auto;
+    }
 }
 
 /* Header - Navbar que se pega al hacer scroll */
@@ -230,6 +366,23 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Menú hamburguesa */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-blanco);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.menu-toggle:hover {
     background: rgba(255, 255, 255, 0.15);
 }
 
@@ -714,8 +867,24 @@ footer .redes a:hover {
         padding: 0.5rem 3vw;
     }
 
-    /* Menú hamburguesa en móvil */
+    /* Mostrar menú hamburguesa en móvil */
     .menu-toggle {
+        display: block;
+    }
+
+    /* Ocultar navegación normal en móvil */
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--color-primario);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Mostrar menú cuando está activo */
+    .nav-menu.active {
         display: block;
     }
 

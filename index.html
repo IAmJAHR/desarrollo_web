@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <!-- Barra superior con redes sociales -->
+    <!-- Barra superior -->
     <div class="top-bar">
         <div class="contact-info">
             <a href="mailto:contacto@mundoaventurero.com" class="contact-link">
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Header con navegación fija -->
+    <!-- Header -->
     <header>
         <div class="logo">
             <a href="index.html">Mundo Aventurero</a>
@@ -76,26 +76,35 @@
 
     <section id="destinos" class="destinos">
         <h2>Destinos Populares</h2>
+        <div class="controles-destinos">
+            <input type="text" id="filtro-destinos" placeholder="Buscar destino..." onchange="filtrarDestinos()">
+            <button id="btn-calculadora" class="btn-calculadora">Calcular Precio</button>
+            <div id="contador-visitas" class="contador"></div>
+        </div>
         <div class="cards">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80"
                     alt="París">
                 <h3>París, Francia</h3>
+                <button class="btn-reservar" onclick="abrirModal()">Reservar</button>
             </div>
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80"
                     alt="Machu Picchu">
                 <h3>Machu Picchu, Perú</h3>
+                <button class="btn-reservar" onclick="abrirModal()">Reservar</button>
             </div>
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80"
                     alt="Tokio">
                 <h3>Tokio, Japón</h3>
+                <button class="btn-reservar" onclick="abrirModal()">Reservar</button>
             </div>
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop&crop=entropy&auto=format&q=80"
                     alt="Nueva York">
                 <h3>Nueva York, EE.UU.</h3>
+                <button class="btn-reservar" onclick="abrirModal()">Reservar</button>
             </div>
         </div>
     </section>
@@ -184,13 +193,13 @@
     <section class="video-section">
         <h2>Explora con nosotros</h2>
         <div class="video-container">
-            <!-- Video MP4 con autoplay, loop y muted -->
+            <!-- Video MP4 -->
             <video class="video-mp4" autoplay loop muted>
                 <source src="assets/video/video_final.mp4" type="video/mp4">
                 Tu navegador no soporta el elemento video.
             </video>
 
-            <!-- Video de YouTube -->
+            <!-- YouTube -->
             <iframe class="video-youtube" src="https://www.youtube.com/embed/7LA4BfaOXRw"
                 title="Video promocional de agencia de viajes" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -199,7 +208,7 @@
         </div>
     </section>
 
-    <!-- Segunda tabla: Especificaciones de servicios -->
+    <!-- Tabla servicios -->
     <section class="servicios">
         <h2>Especificaciones de Servicios</h2>
         <div class="table-container">
@@ -262,7 +271,7 @@
         <p>© 2025 Mundo Aventurero. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Botón flotante "Ir arriba" -->
+    <!-- Botón ir arriba -->
     <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
         <i class="fas fa-chevron-up"></i>
     </button>
@@ -271,15 +280,42 @@
    
     </footer>
 
-    <!-- Botón flotante "Ir arriba" -->
+    <!-- Modal de reserva -->
+    <div id="modal-reserva" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Reservar Viaje</h2>
+            <form id="form-reserva" onsubmit="return procesarReserva()">
+                <div class="form-group">
+                    <label for="nombre-reserva">Nombre completo:</label>
+                    <input type="text" id="nombre-reserva" required>
+                </div>
+                <div class="form-group">
+                    <label for="email-reserva">Email:</label>
+                    <input type="email" id="email-reserva" required>
+                </div>
+                <div class="form-group">
+                    <label for="destino-reserva">Destino:</label>
+                    <select id="destino-reserva" required>
+                        <option value="">Selecciona destino</option>
+                        <option value="París">París, Francia</option>
+                        <option value="Tokyo">Tokyo, Japón</option>
+                        <option value="Nueva York">Nueva York, EE.UU.</option>
+                        <option value="Machu Picchu">Machu Picchu, Perú</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-modal">Confirmar Reserva</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Botón arriba -->
     <button id="scroll-to-top" class="scroll-top-btn" aria-label="Ir arriba">
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Scripts JavaScript -->
-    <script src="assets/scripts/main.js"></script>
-    <script src="assets/scripts/menu.js"></script>
-    <script src="assets/scripts/scroll.js"></script>
+    <!-- Scripts -->
+    <script src="assets/js/index.js"></script>
 </body>
 
 </html>

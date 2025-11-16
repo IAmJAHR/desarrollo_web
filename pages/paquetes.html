@@ -41,7 +41,10 @@
         <div class="logo">
             <a href="../index.html">Mundo Aventurero</a>
         </div>
-        <nav>
+        <button class="menu-toggle" aria-label="Abrir menú">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="nav-menu">
             <ul>
                 <li><a href="../index.html">Inicio</a></li>
                 <li><a href="destinos.html">Destinos</a></li>
@@ -124,38 +127,7 @@
         ↑
     </button>
 
-    <script>
-        // Navbar sticky al hacer scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            const scrollPosition = window.scrollY;
-            
-            // Cuando el scroll sea mayor a 100px, agregar clase sticky
-            if (scrollPosition > 100) {
-                header.classList.add('sticky');
-            } else {
-                header.classList.remove('sticky');
-            }
-        });
-
-        // Botón "Ir arriba" funcionalidad
-        const scrollTopBtn = document.getElementById('scroll-to-top');
-        
-        // Mostrar/ocultar botón según scroll
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 150) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        });
-        
-        // Scroll suave al hacer clic
-        scrollTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+  
     </footer>
 
     <!-- Botón flotante "Ir arriba" -->
@@ -163,9 +135,7 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Scripts JavaScript -->
-    <script src="../assets/scripts/main.js"></script>
-    <script src="../assets/scripts/menu.js"></script>
-    <script src="../assets/scripts/scroll.js"></script>
+    <!-- Scripts -->
+    <script src="../assets/js/paquetes.js"></script>
 </body>
 </html>
