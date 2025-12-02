@@ -1,104 +1,69 @@
-// Funcionalidad página principal
-document.addEventListener('DOMContentLoaded', function() {
+/**
+ * Funcionalidad específica de la página de Inicio
+ * Utiliza App.UI y App.Utils del core.
+ */
+App.Home = (function() {
     
-    // Elementos DOM
-    const scrollTopBtn = document.getElementById('scroll-to-top');
-    const header = document.querySelector('header');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    let scrollPosition = 0;
-    let menuAbierto = false;
+    // --- Lógica de Negocio (Precios, Visitas) ---
+    const Business = {
+        precios: {
+            'paris': 1500,
+            'tokyo': 1800,
+            'newyork': 1200,
+            'machu': 900
+        },
 
-    // Navbar fijo al hacer scroll
-    window.addEventListener('scroll', function() {
-        scrollPosition = window.scrollY;
-        
-        if (scrollPosition > 100) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
-        }
-        
-        if (scrollPosition > 150) {
-            scrollTopBtn.classList.add('visible');
-        } else {
-            scrollTopBtn.classList.remove('visible');
-        }
-    });
-
-    // Botón ir arriba
-    scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // Menú móvil
-    function toggleMenu() {
-        menuAbierto = !menuAbierto;
-        
-        if (menuAbierto) {
-            navMenu.classList.add('active');
-            menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-            navMenu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-    }
-
-    menuToggle.addEventListener('click', toggleMenu);
-
-    // Cerrar menú al hacer clic
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (menuAbierto) {
-                toggleMenu();
+        calcularPrecio: function(destino, personas) {
+            const destinoLower = destino.toLowerCase();
+            if (this.precios[destinoLower]) {
+                return this.precios[destinoLower] * parseInt(personas);
             }
-        });
-    });
+            return null;
+        },
 
-    // Cerrar menú al hacer clic fuera
-    document.addEventListener('click', function(event) {
-        if (!header.contains(event.target) && menuAbierto) {
-            toggleMenu();
+        gestionarVisitas: function() {
+            // [Lógica] Recuperar y guardar datos en localStorage
+            let visitas = App.Utils.Storage.get('visitas', 0);
+            visitas = parseInt(visitas) + 1;
+            App.Utils.Storage.set('visitas', visitas);
+            
+            // [DOM] Obtener elemento por ID para actualizar texto
+            const contadorElement = document.getElementById('contador-visitas');
+            if (contadorElement) {
+                // [DOM] Modificar contenido HTML
+                contadorElement.innerHTML = `Visitas: ${visitas}`;
+            }
         }
-    });
+    };
 
-    // Modal de reserva
-    window.abrirModal = function() {
-        const modal = document.getElementById('modal-reserva');
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+    // --- Funciones Públicas (Exposed to Window for HTML attributes) ---
+    function init() {
+        Business.gestionarVisitas();
     }
 
-    window.cerrarModal = function() {
-        const modal = document.getElementById('modal-reserva');
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+    function abrirModal() {
+        // [Lógica] Llamada a función de UI compartida
+        App.UI.abrirModal('modal-reserva');
     }
 
-    // Cerrar modal al hacer clic fuera
-    window.addEventListener('click', function(event) {
-        const modal = document.getElementById('modal-reserva');
-        if (event.target === modal) {
-            cerrarModal();
-        }
-    });
+    function cerrarModal() {
+        App.UI.cerrarModal('modal-reserva');
+    }
 
-    // Validación formulario
-    window.procesarReserva = function() {
+    function procesarReserva() {
+        // [DOM] Obtener valores de inputs del formulario
         const nombre = document.getElementById('nombre-reserva').value;
         const email = document.getElementById('email-reserva').value;
         const destino = document.getElementById('destino-reserva').value;
         
-        if (nombre.length < 2) {
+        // [Lógica] Validaciones usando utilidades
+        if (!App.Utils.validarTexto(nombre, 2)) {
+            // [BOM] Mostrar alerta del navegador
             alert('El nombre debe tener al menos 2 caracteres');
             return false;
         }
         
-        if (!email.includes('@')) {
+        if (!App.Utils.validarEmail(email)) {
             alert('Por favor ingresa un email válido');
             return false;
         }
@@ -108,93 +73,73 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
+        // [BOM] Confirmación nativa
         const confirmacion = confirm(`¿Confirmas tu reserva para ${destino}?`);
         
         if (confirmacion) {
             alert(`¡Gracias ${nombre}! Tu reserva ha sido procesada. Te contactaremos a ${email}`);
             cerrarModal();
+            // [DOM] Resetear formulario
             document.getElementById('form-reserva').reset();
         }
         
         return false;
     }
 
-    // Calculadora de precios
-    window.calcularPrecio = function() {
+    function calcularPrecio() {
+        // [BOM] Prompt nativo para entrada de datos
         const destino = prompt('Ingresa el destino (Paris, Tokyo, NewYork, Machu):');
-        
         if (destino === null) return;
         
-        const precios = {
-            'paris': 1500,
-            'tokyo': 1800,
-            'newyork': 1200,
-            'machu': 900
-        };
-        
-        const destinoLower = destino.toLowerCase();
-        
-        if (precios[destinoLower]) {
-            const personas = prompt('¿Para cuántas personas?');
-            
-            if (personas && !isNaN(personas) && personas > 0) {
-                const total = precios[destinoLower] * parseInt(personas);
+        const personas = prompt('¿Para cuántas personas?');
+        if (personas && !isNaN(personas) && personas > 0) {
+            // [Lógica] Cálculo matemático
+            const total = Business.calcularPrecio(destino, personas);
+            if (total !== null) {
                 alert(`El precio total para ${personas} persona(s) a ${destino} es: $${total}`);
             } else {
-                alert('Por favor ingresa un número válido de personas');
+                alert('Destino no encontrado. Opciones: Paris, Tokyo, NewYork, Machu');
             }
         } else {
-            alert('Destino no encontrado. Opciones: Paris, Tokyo, NewYork, Machu');
+            alert('Por favor ingresa un número válido de personas');
         }
     }
 
-    // Filtro de destinos
-    window.filtrarDestinos = function() {
+    function filtrarDestinos() {
+        // [DOM] Obtener valor del input de búsqueda
         const filtro = document.getElementById('filtro-destinos').value.toLowerCase();
+        // [DOM] Seleccionar todas las tarjetas (NodeList)
         const cards = document.querySelectorAll('.card');
         
         cards.forEach(card => {
+            // [DOM] Leer contenido de texto de un elemento hijo
             const titulo = card.querySelector('h3').textContent.toLowerCase();
             
+            // [Lógica] Condición de filtrado
             if (titulo.includes(filtro) || filtro === '') {
+                // [DOM] Mostrar elemento (modificar estilo CSS)
                 card.style.display = 'block';
             } else {
+                // [DOM] Ocultar elemento
                 card.style.display = 'none';
             }
         });
     }
 
-    // Contador de visitas
-    function contarVisitas() {
-        let visitas = localStorage.getItem('visitas');
-        
-        if (visitas === null) {
-            visitas = 0;
-        }
-        
-        visitas = parseInt(visitas) + 1;
-        localStorage.setItem('visitas', visitas);
-        
-        const contadorElement = document.getElementById('contador-visitas');
-        if (contadorElement) {
-            contadorElement.innerHTML = `Visitas: ${visitas}`;
-        }
-    }
+    // Exponer funciones al objeto global window para compatibilidad con HTML onclick
+    window.abrirModal = abrirModal;
+    window.cerrarModal = cerrarModal;
+    window.procesarReserva = procesarReserva;
+    window.calcularPrecio = calcularPrecio;
+    window.filtrarDestinos = filtrarDestinos;
 
-    // Inicializar
-    contarVisitas();
+    return {
+        init: init
+    };
 
-    // Animaciones de scroll
-    const observador = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    });
-    
-    const elementosAnimados = document.querySelectorAll('.card, .testimonial-card');
-    elementosAnimados.forEach(elemento => {
-        observador.observe(elemento);
-    });
+})();
+
+// Inicializar
+document.addEventListener('DOMContentLoaded', function() {
+    App.Home.init();
 });

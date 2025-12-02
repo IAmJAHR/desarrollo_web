@@ -1,104 +1,41 @@
-// Funcionalidad página paquetes
-document.addEventListener('DOMContentLoaded', function() {
+App.Paquetes = (function() {
     
-    // Variables
-    const scrollTopBtn = document.getElementById('scroll-to-top');
-    const header = document.querySelector('header');
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    let scrollPosition = 0;
-    let menuAbierto = false;
+    function init() {
+        setupReservas();
+    }
 
-    // Navbar sticky al hacer scroll
-    window.addEventListener('scroll', function() {
-        scrollPosition = window.scrollY;
-        
-        if (scrollPosition > 100) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
-        }
-        
-        if (scrollPosition > 150) {
-            scrollTopBtn.classList.add('visible');
-        } else {
-            scrollTopBtn.classList.remove('visible');
-        }
-    });
-
-    // Botón "Ir arriba"
-    scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    function setupReservas() {
+        const botonesReserva = document.querySelectorAll('button');
+        botonesReserva.forEach(boton => {
+            if (boton.textContent.includes('Reservar')) {
+                boton.addEventListener('click', handleReserva);
+            }
         });
-    });
+    }
 
-    // Menú hamburguesa
-    function toggleMenu() {
-        menuAbierto = !menuAbierto;
+    function handleReserva() {
+        const fila = this.closest('tr');
+        const paquete = fila.querySelector('td').textContent;
+        const precio = fila.querySelectorAll('td')[2].textContent;
         
-        if (menuAbierto) {
-            navMenu.classList.add('active');
-            menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-            navMenu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        if(confirm(`¿Deseas reservar el ${paquete}?\nPrecio: ${precio}`)) {
+            const nombre = prompt('Ingresa tu nombre completo:');
+            
+            if (App.Utils.validarTexto(nombre, 3)) {
+                const email = prompt('Ingresa tu email:');
+                
+                if (App.Utils.validarEmail(email)) {
+                    alert(`¡Reserva confirmada!\nPaquete: ${paquete}\nNombre: ${nombre}\nEmail: ${email}\n\nTe contactaremos pronto para confirmar los detalles.`);
+                } else {
+                    alert('Email inválido. Reserva cancelada.');
+                }
+            } else {
+                alert('Nombre inválido. Reserva cancelada.');
+            }
         }
     }
 
-    menuToggle.addEventListener('click', toggleMenu);
-
-    // Cerrar menú al hacer clic en enlaces
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (menuAbierto) {
-                toggleMenu();
-            }
-        });
-    });
-
-    // Cerrar menú al hacer clic fuera
-    document.addEventListener('click', function(event) {
-        if (!header.contains(event.target) && menuAbierto) {
-            toggleMenu();
-        }
-    });
-
-    // Reserva de paquetes
-    const botonesReserva = document.querySelectorAll('button');
-    
-    botonesReserva.forEach(boton => {
-        if (boton.textContent.includes('Reservar')) {
-            boton.addEventListener('click', function() {
-                const fila = this.closest('tr');
-                const paquete = fila.querySelector('td').textContent;
-                const precio = fila.querySelectorAll('td')[2].textContent;
-                
-                const confirmacion = confirm(`¿Deseas reservar el ${paquete}?\nPrecio: ${precio}`);
-                
-                if (confirmacion) {
-                    const nombre = prompt('Ingresa tu nombre completo:');
-                    
-                    if (nombre && nombre.length > 2) {
-                        const email = prompt('Ingresa tu email:');
-                        
-                        if (email && email.includes('@')) {
-                            alert(`¡Reserva confirmada!\nPaquete: ${paquete}\nNombre: ${nombre}\nEmail: ${email}\n\nTe contactaremos pronto para confirmar los detalles.`);
-                        } else {
-                            alert('Email inválido. Reserva cancelada.');
-                        }
-                    } else {
-                        alert('Nombre inválido. Reserva cancelada.');
-                    }
-                }
-            });
-        }
-    });
-
-    // Comparador de paquetes
-    window.compararPaquetes = function() {
+    function compararPaquetes() {
         const paquetes = [
             { nombre: 'Europa', precio: 1500, dias: 10 },
             { nombre: 'Asia', precio: 1800, dias: 12 },
@@ -115,8 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(comparacion);
     }
 
-    // Calculadora de descuentos
-    window.calcularDescuento = function() {
+    function calcularDescuento() {
         const personas = prompt('¿Cuántas personas viajarán?');
         
         if (personas === null || isNaN(personas) || personas <= 0) {
@@ -139,8 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Filtro por precio
-    window.filtrarPorPrecio = function() {
+    function filtrarPorPrecio() {
         const presupuesto = prompt('¿Cuál es tu presupuesto máximo? (en USD)');
         
         if (presupuesto === null || isNaN(presupuesto)) {
@@ -166,4 +101,18 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('No hay paquetes disponibles dentro de tu presupuesto. Te recomendamos ahorrar un poco más.');
         }
     }
+
+    // Exponer funciones a window
+    window.compararPaquetes = compararPaquetes;
+    window.calcularDescuento = calcularDescuento;
+    window.filtrarPorPrecio = filtrarPorPrecio;
+
+    return {
+        init: init
+    };
+
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+    App.Paquetes.init();
 });

@@ -1002,3 +1002,25 @@ footer .redes a:hover {
         margin-top: 0.5rem;
     }
 }
+/* Responsive para móviles pequeños (480px) */
+@media (max-width: 480px) {
+    .banner-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .banner-text p {
+        font-size: 0.9rem;
+    }
+
+    section {
+        padding: 3rem 1rem;
+    }
+
+    section h2 {
+        font-size: 1.8rem;
+    }
+
+    .video-youtube {
+        height: 200px;
+    }
+}
